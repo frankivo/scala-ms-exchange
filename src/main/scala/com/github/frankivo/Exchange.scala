@@ -13,6 +13,10 @@ import scala.collection.JavaConverters._
 
 class Exchange(user: String, pass: String, uri: URI) {
 
+  /**
+   * Connects to the Exchange Server.
+   * @return Connection instance.
+   */
   private def getService: ExchangeService = {
     val service = new ExchangeService()
     service.setCredentials(new WebCredentials(user, pass))
@@ -20,8 +24,16 @@ class Exchange(user: String, pass: String, uri: URI) {
     service
   }
 
+  /**
+   * Gets the Inbox.
+   * @return Inbox Folder.
+   */
   private def getInbox: Folder = Folder.bind(getService, WellKnownFolderName.Inbox)
 
+  /**
+   * Get all e-mails from the inbox.
+   * @return List of e-mails.
+   */
   def getInboxItems: List[Item] = {
     val inbox = getInbox
 
