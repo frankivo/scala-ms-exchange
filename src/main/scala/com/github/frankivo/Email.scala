@@ -38,9 +38,9 @@ object Email {
         .toList
         .map(a => a.asInstanceOf[FileAttachment])
         .map(a => {
-          val path = Paths.get(path, a.getName)
-          a.load(path.toString)
-          path.toString
+          val fullFilename = Paths.get(path, a.getName)
+          a.load(fullFilename.toString)
+          fullFilename.toString
         })
     }
   }
