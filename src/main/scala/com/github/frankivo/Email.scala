@@ -8,7 +8,7 @@ import microsoft.exchange.webservices.data.core.service.item.Item
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema
 import microsoft.exchange.webservices.data.property.complex.FileAttachment
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * Helper methods for Item.
@@ -17,6 +17,7 @@ object Email {
 
   /**
    * Adds methods to Item.
+   *
    * @param item An e-mail.
    */
   implicit class Actions(item: Item) {
@@ -27,11 +28,13 @@ object Email {
 
     /**
      * Stores all attachments to disk.
+     *
      * @param path File store-location.
      * @return List of stored files.
      */
     def storeAttachments(path: String): List[String] = {
       val extended = Item.bind(item.getService, item.getId, new PropertySet(ItemSchema.Attachments))
+
       extended
         .getAttachments
         .asScala

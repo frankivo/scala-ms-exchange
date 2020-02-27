@@ -12,6 +12,7 @@ object EmailList {
 
   /**
    * Adds methods to List[Item].
+   *
    * @param items List of e-mails.
    */
   implicit class Filters(items: List[Item]) {
