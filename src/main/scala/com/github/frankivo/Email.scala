@@ -10,8 +10,15 @@ import microsoft.exchange.webservices.data.property.complex.FileAttachment
 
 import scala.collection.JavaConverters._
 
+/**
+ * Helper methods for Item.
+ */
 object Email {
 
+  /**
+   * Adds methods to Item.
+   * @param item An e-mail.
+   */
   implicit class Actions(item: Item) {
     /**
      * Permanently deletes mail from server.
