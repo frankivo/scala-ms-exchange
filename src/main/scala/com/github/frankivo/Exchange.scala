@@ -11,6 +11,12 @@ import microsoft.exchange.webservices.data.search.ItemView
 
 import scala.collection.JavaConverters._
 
+/**
+ * Sets up a connection to MS Exchange.
+ * @param user Username.
+ * @param pass Password.
+ * @param uri Connection URL.
+ */
 class Exchange(user: String, pass: String, uri: URI) {
 
   /**
