@@ -1,9 +1,12 @@
 plugins {
     id 'scala'
+    id 'maven'
+    id 'signing'
 }
 
 group 'com.github.frankivo'
-version '1.0-SNAPSHOT'
+version '1.0.0'
+archivesBaseName = 'scala-ms-exchange'
 
 sourceCompatibility = 1.8
 
@@ -12,6 +15,69 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.13.1'
+    compile 'org.scala-lang:scala-library:2.11.12'
     compile 'com.microsoft.ews-java-api:ews-java-api:2.0'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name 'Scala MS-Exchange'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Making working with Exchange easier.'
+                url 'https://github.com/frankivo/scala-ms-exchange'
+
+                scm {
+                    connection 'https://github.com/frankivo/scala-ms-exchange.git'
+                    developerConnection 'https://github.com/frankivo/scala-ms-exchange.git'
+                    url 'https://github.com/frankivo/scala-ms-exchange'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'frankivo'
+                        name 'Frank Oosterhuis'
+                        email 'frank@scriptzone.nl'
+                    }
+                }
+            }
+        }
+    }
 }
