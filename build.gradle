@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.11.12'
+    compile 'org.scala-lang:scala-library:2.13.1'
     compile 'com.microsoft.ews-java-api:ews-java-api:2.0'
 }
 
