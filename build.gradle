@@ -6,7 +6,7 @@ plugins {
 
 group 'com.github.frankivo'
 version '1.0.0'
-archivesBaseName = 'scala-ms-exchange'
+archivesBaseName = 'scala-ms-exchange_2.13'
 
 sourceCompatibility = 1.8
 
