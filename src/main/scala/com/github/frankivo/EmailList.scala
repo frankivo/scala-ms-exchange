@@ -1,5 +1,6 @@
 package com.github.frankivo
 
+import java.time.temporal.ChronoUnit
 import java.time.{Instant, Period}
 import java.util.Date
 
@@ -32,7 +33,7 @@ object EmailList {
      * @return Filtered list of e-mails.
      */
     def maxAge(hours: Int): List[Item] = {
-      val maxAge = Date.from(Instant.now.minusSeconds(hours * 60))
+      val maxAge = Date.from(Instant.now.minus(hours, ChronoUnit.HOURS))
       items.filter(_.getDateTimeReceived.after(maxAge))
     }
 
