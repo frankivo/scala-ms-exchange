@@ -21,6 +21,15 @@ import scala.jdk.CollectionConverters._
 class Exchange(user: String, pass: String, uri: URI) {
 
   /**
+   * Sets up a connection to MS Exchange.
+   *
+   * @param user Username.
+   * @param pass Password.
+   * @param uri  Connection URL.
+   */
+  def this(user: String, pass: String, uri: String) = this(user, pass, new URI(uri))
+
+  /**
    * Connects to the Exchange Server.
    *
    * @return Connection instance.
