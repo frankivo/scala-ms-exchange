@@ -1,6 +1,7 @@
 package com.github.frankivo
 
-import java.time.{Instant, Period}
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.Date
 
 import microsoft.exchange.webservices.data.core.service.item.Item
@@ -32,7 +33,7 @@ object EmailList {
      * @return Filtered list of e-mails.
      */
     def maxAge(hours: Int): List[Item] = {
-      val maxAge = Date.from(Instant.now.minusSeconds(hours * 60))
+      val maxAge = Date.from(Instant.now.minus(hours, ChronoUnit.HOURS))
       items.filter(_.getDateTimeReceived.after(maxAge))
     }
 
@@ -43,7 +44,7 @@ object EmailList {
      * @return Filtered list of e-mails.
      */
     def minAge(days: Int): List[Item] = {
-      val minAge = Date.from(Instant.now.minus(Period.ofDays(days)))
+      val minAge = Date.from(Instant.now.minus(days, ChronoUnit.DAYS))
       items.filter(_.getDateTimeReceived.before(minAge))
     }
 
