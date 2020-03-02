@@ -1,7 +1,7 @@
 package com.github.frankivo
 
+import java.time.Instant
 import java.time.temporal.ChronoUnit
-import java.time.{Instant, Period}
 import java.util.Date
 
 import microsoft.exchange.webservices.data.core.service.item.Item
@@ -44,7 +44,7 @@ object EmailList {
      * @return Filtered list of e-mails.
      */
     def minAge(days: Int): List[Item] = {
-      val minAge = Date.from(Instant.now.minus(Period.ofDays(days)))
+      val minAge = Date.from(Instant.now.minus(days, ChronoUnit.DAYS))
       items.filter(_.getDateTimeReceived.before(minAge))
     }
 
