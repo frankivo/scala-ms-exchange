@@ -19,6 +19,7 @@ object EmailList {
 
     /**
      * Find e-mails by partial subject.
+     *
      * @param subject Subject to search for.
      * @return Filtered list of e-mails.
      */
@@ -26,6 +27,7 @@ object EmailList {
 
     /**
      * Find e-mails by maximum received date.
+     *
      * @param hours Maximum age of mails in hours.
      * @return Filtered list of e-mails.
      */
@@ -36,6 +38,7 @@ object EmailList {
 
     /**
      * Find e-mails by minimum received date.
+     *
      * @param days Minimum age of mails in days.
      * @return Filtered list of e-mails.
      */
@@ -46,8 +49,10 @@ object EmailList {
 
     /**
      * Find e-mails that have at least one attachment.
+     *
      * @return Filtered list of e-mails.
      */
     def hasAttachment: List[Item] = items.filter(_.getHasAttachments)
   }
+
 }
