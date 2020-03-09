@@ -8,8 +8,6 @@ import microsoft.exchange.webservices.data.core.service.item.Item
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema
 import microsoft.exchange.webservices.data.property.complex.FileAttachment
 
-import scala.jdk.CollectionConverters._
-
 /**
  * Helper methods for Item.
  */
@@ -37,9 +35,10 @@ object Email {
 
       extended
         .getAttachments
-        .asScala
+        .getItems
+        .toArray
         .toList
-        .map(a => a.asInstanceOf[FileAttachment])
+        .asInstanceOf[List[FileAttachment]]
         .map(a => {
           val fullFilename = Paths.get(path, a.getName)
           a.load(fullFilename.toString)
