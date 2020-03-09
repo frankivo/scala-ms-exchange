@@ -66,12 +66,13 @@ class Exchange(user: String, pass: String, uri: URI) {
 
   /**
    * Send an e-mail. The message will not be stored in Send folder.
-   * @param to Recipient (e-mail address).
-   * @param subject E-mail subject.
-   * @param body E-mail content.
+   *
+   * @param to         Recipient (e-mail address).
+   * @param subject    E-mail subject.
+   * @param body       E-mail content.
    * @param attachment Optional attachment path.
    */
-  def sendMail(to: String, subject: String, body: String, attachment: Option[String]): Unit = {
+  def sendMail(to: String, subject: String, body: String, attachment: Option[String] = None): Unit = {
     val msg = new EmailMessage(getService)
 
     msg.getToRecipients.add(to)
@@ -80,5 +81,17 @@ class Exchange(user: String, pass: String, uri: URI) {
     attachment.foreach(msg.getAttachments.addFileAttachment(_))
 
     msg.send()
+  }
+
+  /**
+   * Send an e-mail. The message will not be stored in Send folder.
+   *
+   * @param to         Recipient (e-mail address).
+   * @param subject    E-mail subject.
+   * @param body       E-mail content.
+   * @param attachment Attachment path.
+   */
+  def sendMail(to: String, subject: String, body: String, attachment: String): Unit = {
+    sendMail(to, subject, body, Some(attachment))
   }
 }
