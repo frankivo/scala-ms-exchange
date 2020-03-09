@@ -1,0 +1,6 @@
+sonatypeUsername=[username]
+sonatypePassword=[password]
+
+signing.keyId=[gpg key id (last 8 characters)]
+signing.password=[gpg passphrase]
+signing.secretKeyRingFile=[path to gpg file]
