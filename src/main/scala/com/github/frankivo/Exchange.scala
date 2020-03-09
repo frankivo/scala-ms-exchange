@@ -10,8 +10,6 @@ import microsoft.exchange.webservices.data.credential.WebCredentials
 import microsoft.exchange.webservices.data.property.complex.MessageBody
 import microsoft.exchange.webservices.data.search.ItemView
 
-import scala.jdk.CollectionConverters._
-
 /**
  * Sets up a connection to MS Exchange.
  *
@@ -60,8 +58,9 @@ class Exchange(user: String, pass: String, uri: URI) {
     getService
       .findItems(inbox.getId, new ItemView(inbox.getTotalCount))
       .getItems
-      .asScala
+      .toArray
       .toList
+      .asInstanceOf[List[Item]]
   }
 
   /**
