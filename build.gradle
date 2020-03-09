@@ -19,9 +19,9 @@ dependencies {
     compile 'com.microsoft.ews-java-api:ews-java-api:2.0'
 }
 
-task javadocJar(type: Jar) {
+task scaladocJar(type: Jar) {
     classifier = 'javadoc'
-    from javadoc
+    from scaladoc
 }
 
 task sourcesJar(type: Jar) {
@@ -30,7 +30,7 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives javadocJar, sourcesJar
+    archives scaladocJar, sourcesJar
 }
 
 signing {
