@@ -5,8 +5,9 @@ import java.net.URI
 import microsoft.exchange.webservices.data.core.ExchangeService
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName
 import microsoft.exchange.webservices.data.core.service.folder.Folder
-import microsoft.exchange.webservices.data.core.service.item.Item
+import microsoft.exchange.webservices.data.core.service.item.{EmailMessage, Item}
 import microsoft.exchange.webservices.data.credential.WebCredentials
+import microsoft.exchange.webservices.data.property.complex.MessageBody
 import microsoft.exchange.webservices.data.search.ItemView
 
 import scala.jdk.CollectionConverters._
@@ -61,5 +62,36 @@ class Exchange(user: String, pass: String, uri: URI) {
       .getItems
       .asScala
       .toList
+  }
+
+  /**
+   * Send an e-mail. The message will not be stored in Send folder.
+   *
+   * @param to         Recipient (e-mail address).
+   * @param subject    E-mail subject.
+   * @param body       E-mail content.
+   * @param attachment Optional attachment path.
+   */
+  def sendMail(to: String, subject: String, body: String, attachment: Option[String] = None): Unit = {
+    val msg = new EmailMessage(getService)
+
+    msg.getToRecipients.add(to)
+    msg.setSubject(subject)
+    msg.setBody(MessageBody.getMessageBodyFromText(body))
+    attachment.foreach(msg.getAttachments.addFileAttachment(_))
+
+    msg.send()
+  }
+
+  /**
+   * Send an e-mail. The message will not be stored in Send folder.
+   *
+   * @param to         Recipient (e-mail address).
+   * @param subject    E-mail subject.
+   * @param body       E-mail content.
+   * @param attachment Attachment path.
+   */
+  def sendMail(to: String, subject: String, body: String, attachment: String): Unit = {
+    sendMail(to, subject, body, Some(attachment))
   }
 }
