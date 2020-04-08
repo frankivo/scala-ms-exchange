@@ -1,7 +1,7 @@
 package com.github.frankivo
 
-import java.time.Instant
 import java.time.temporal.ChronoUnit
+import java.time.{Instant, LocalDate}
 import java.util.Date
 
 import microsoft.exchange.webservices.data.core.service.item.Item
@@ -54,6 +54,13 @@ object EmailList {
      * @return Filtered list of e-mails.
      */
     def hasAttachment: List[Item] = items.filter(_.getHasAttachments)
+
+    /**
+     * Find e-mails that are on a specific date.
+     * @param date Date to filter on.
+     * @return Filtered list of e-mails.
+     */
+    def onDate(date: LocalDate): List[Item] = ???
   }
 
 }
