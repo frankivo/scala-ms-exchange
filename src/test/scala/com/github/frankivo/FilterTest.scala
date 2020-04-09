@@ -1,6 +1,6 @@
 package com.github.frankivo
 
-import java.time.Instant
+import java.time.{Instant, LocalDate}
 import java.time.temporal.ChronoUnit
 import java.util.Date
 
@@ -53,6 +53,20 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
       mockMail(subject = "Mail 3", date = Date.from(Instant.now.minus(15, ChronoUnit.DAYS))),
       mockMail(subject = "Mail 4", date = Date.from(Instant.now.minus(30, ChronoUnit.DAYS)))
     ).minAge(14)
+
+    mails.length should be(2)
+  }
+
+  "date filter" should "find mails on specific date" in {
+    import DateUtil.{LocalDateUtil, DateUtil}
+
+    val mails = List[Item](
+      mockMail(subject = "Mail 1", date = LocalDate.parse("2019-04-09").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 2", date = LocalDate.parse("2020-04-08").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 3", date = LocalDate.parse("2020-04-09").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 4", date = LocalDate.parse("2020-04-10").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 5", date = LocalDate.parse("2020-04-09").toDate.addSeconds(60))
+    ).onDate(LocalDate.parse("2020-04-09"))
 
     mails.length should be(2)
   }
