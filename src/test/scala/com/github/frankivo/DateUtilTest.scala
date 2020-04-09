@@ -22,10 +22,11 @@ class DateUtilTest extends AnyFlatSpec with Matchers {
   "Date" should "add 60 seconds" in {
     import DateUtil.{DateUtil, LocalDateUtil}
     val d = LocalDate.parse("2020-04-04").toDate
-    d.getTime should be(1585951200000L)
+    val t1 = d.getTime
     d.addSeconds(60)
+    val t2 = d.getTime
 
-    d.getTime should be(1585951200060L)
+    t2 - t1 should be(60L)
   }
 
   "Date" should "convert to LocalDate" in {
