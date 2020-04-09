@@ -5,7 +5,7 @@ lazy val supportedScalaVersions = Seq(scala211, scala212, scala213)
 
 ThisBuild / name := "scala-ms-exchange"
 ThisBuild / organization := "com.github.frankivo"
-ThisBuild / version := "1.2.0"
+ThisBuild / version := "1.2.1"
 ThisBuild / scalaVersion := scala213
 ThisBuild / libraryDependencies += "com.microsoft.ews-java-api" % "ews-java-api" % "2.0"
 ThisBuild / libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.1" % "test"
