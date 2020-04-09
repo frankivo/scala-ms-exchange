@@ -57,10 +57,14 @@ object EmailList {
 
     /**
      * Find e-mails that are on a specific date.
-     * @param date Date to filter on.
+     *
+     * @param localDate Date to filter on.
      * @return Filtered list of e-mails.
      */
-    def onDate(date: LocalDate): List[Item] = ???
+    def onDate(localDate: LocalDate): List[Item] = {
+      import DateUtil.DateUtil
+      items.filter(_.getDateTimeReceived.toLocalDate.equals(localDate))
+    }
   }
 
 }
