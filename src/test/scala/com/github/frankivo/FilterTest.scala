@@ -14,10 +14,10 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
 
   "subject filter" should "find an existing subject" in {
     val mails = List[Item](
-      mockMail("Mail 1"),
-      mockMail("Mail 2"),
-      mockMail("Mail 3"),
-      mockMail("Mail 4")
+      mockMail(subject = "Mail 1"),
+      mockMail(subject = "Mail 2"),
+      mockMail(subject = "Mail 3"),
+      mockMail(subject = "Mail 4")
     ).subjectContains("Mail 3")
 
     mails.length should be(1)
@@ -26,10 +26,10 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
 
   "subject filter" should "not find an non-existing subject" in {
     val mails = List[Item](
-      mockMail("Mail 1"),
-      mockMail("Mail 2"),
-      mockMail("Mail 3"),
-      mockMail("Mail 4")
+      mockMail(subject = "Mail 1"),
+      mockMail(subject = "Mail 2"),
+      mockMail(subject = "Mail 3"),
+      mockMail(subject = "Mail 4")
     ).subjectContains("Fake mail")
 
     mails.length should be(0)
@@ -37,10 +37,10 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
 
   "maxAge filter" should "find mails within range" in {
     val mails = List[Item](
-      mockMail("Mail 1", Date.from(Instant.now.minus(1, ChronoUnit.HOURS))),
-      mockMail("Mail 2", Date.from(Instant.now.minus(3, ChronoUnit.HOURS))),
-      mockMail("Mail 3", Date.from(Instant.now.minus(5, ChronoUnit.HOURS))),
-      mockMail("Mail 4", Date.from(Instant.now.minus(7, ChronoUnit.HOURS)))
+      mockMail(subject = "Mail 1", date = Date.from(Instant.now.minus(1, ChronoUnit.HOURS))),
+      mockMail(subject = "Mail 2", date = Date.from(Instant.now.minus(3, ChronoUnit.HOURS))),
+      mockMail(subject = "Mail 3", date = Date.from(Instant.now.minus(5, ChronoUnit.HOURS))),
+      mockMail(subject = "Mail 4", date = Date.from(Instant.now.minus(7, ChronoUnit.HOURS)))
     ).maxAge(4)
 
     mails.length should be(2)
@@ -48,20 +48,32 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
 
   "minAge filter" should "find mails within range" in {
     val mails = List[Item](
-      mockMail("Mail 1", Date.from(Instant.now.minus(1, ChronoUnit.DAYS))),
-      mockMail("Mail 2", Date.from(Instant.now.minus(10, ChronoUnit.DAYS))),
-      mockMail("Mail 3", Date.from(Instant.now.minus(15, ChronoUnit.DAYS))),
-      mockMail("Mail 4", Date.from(Instant.now.minus(30, ChronoUnit.DAYS)))
+      mockMail(subject = "Mail 1", date = Date.from(Instant.now.minus(1, ChronoUnit.DAYS))),
+      mockMail(subject = "Mail 2", date = Date.from(Instant.now.minus(10, ChronoUnit.DAYS))),
+      mockMail(subject = "Mail 3", date = Date.from(Instant.now.minus(15, ChronoUnit.DAYS))),
+      mockMail(subject = "Mail 4", date = Date.from(Instant.now.minus(30, ChronoUnit.DAYS)))
     ).minAge(14)
 
     mails.length should be(2)
   }
 
-  def mockMail(subject: String, date: Date = new Date): Item = {
+  "attachment filter" should "find mails with attachments" in {
+    val mails = List[Item](
+      mockMail(subject = "Mail 1", hasAttachment = true),
+      mockMail(subject = "Mail 2", hasAttachment = true),
+      mockMail(subject = "Mail 3", hasAttachment = false),
+      mockMail(subject = "Mail 4", hasAttachment = true)
+    ).hasAttachment
+
+    mails.length should be(3)
+  }
+
+  def mockMail(subject: String, date: Date = new Date, hasAttachment: Boolean = false): Item = {
     val mail = mock[Item]
 
     when(mail.getSubject).thenReturn(subject)
     when(mail.getDateTimeReceived).thenReturn(date)
+    when(mail.getHasAttachments).thenReturn(hasAttachment)
 
     mail
   }
