@@ -58,18 +58,18 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
   }
 
   "date filter" should "find mails on specific date" in {
+    import com.github.frankivo.DateUtil.Convert
+
     val mails = List[Item](
-      mockMail(subject = "Mail 1", date = fromLocalDate(LocalDate.parse("2019-04-09"))),
-      mockMail(subject = "Mail 2", date = fromLocalDate(LocalDate.parse("2020-04-08"))),
-      mockMail(subject = "Mail 3", date = fromLocalDate(LocalDate.parse("2020-04-09"))),
-      mockMail(subject = "Mail 4", date = fromLocalDate(LocalDate.parse("2020-04-10"))),
-      mockMail(subject = "Mail 5", date = fromLocalDate(LocalDate.parse("2020-04-09")))
+      mockMail(subject = "Mail 1", date = LocalDate.parse("2019-04-09").toDate),
+      mockMail(subject = "Mail 2", date = LocalDate.parse("2020-04-08").toDate),
+      mockMail(subject = "Mail 3", date = LocalDate.parse("2020-04-09").toDate),
+      mockMail(subject = "Mail 4", date = LocalDate.parse("2020-04-10").toDate),
+      mockMail(subject = "Mail 5", date = LocalDate.parse("2020-04-09").toDate)
     ).onDate(LocalDate.parse("2020-04-09"))
 
     mails.length should be(2)
   }
-
-  def fromLocalDate(dateToConvert: LocalDate): Date = java.sql.Date.valueOf(dateToConvert)
 
   "attachment filter" should "find mails with attachments" in {
     val mails = List[Item](
