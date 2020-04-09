@@ -8,6 +8,8 @@ ThisBuild / organization := "com.github.frankivo"
 ThisBuild / version := "1.2.0"
 ThisBuild / scalaVersion := scala213
 ThisBuild / libraryDependencies += "com.microsoft.ews-java-api" % "ews-java-api" % "2.0"
+ThisBuild / libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.1" % "test"
+ThisBuild / libraryDependencies += "org.mockito" %% "mockito-scala" % "1.13.7"
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
