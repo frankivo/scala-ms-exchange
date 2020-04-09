@@ -58,14 +58,14 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
   }
 
   "date filter" should "find mails on specific date" in {
-    import com.github.frankivo.DateUtil.Convert
+    import DateUtil.{LocalDateUtil, DateUtil}
 
     val mails = List[Item](
-      mockMail(subject = "Mail 1", date = LocalDate.parse("2019-04-09").toDate),
-      mockMail(subject = "Mail 2", date = LocalDate.parse("2020-04-08").toDate),
-      mockMail(subject = "Mail 3", date = LocalDate.parse("2020-04-09").toDate),
-      mockMail(subject = "Mail 4", date = LocalDate.parse("2020-04-10").toDate),
-      mockMail(subject = "Mail 5", date = LocalDate.parse("2020-04-09").toDate)
+      mockMail(subject = "Mail 1", date = LocalDate.parse("2019-04-09").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 2", date = LocalDate.parse("2020-04-08").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 3", date = LocalDate.parse("2020-04-09").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 4", date = LocalDate.parse("2020-04-10").toDate.addSeconds(60)),
+      mockMail(subject = "Mail 5", date = LocalDate.parse("2020-04-09").toDate.addSeconds(60))
     ).onDate(LocalDate.parse("2020-04-09"))
 
     mails.length should be(2)
