@@ -1,6 +1,6 @@
 package com.github.frankivo
 
-import java.time.Instant
+import java.time.{Instant, LocalDate}
 import java.time.temporal.ChronoUnit
 import java.util.Date
 
@@ -56,6 +56,20 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
 
     mails.length should be(2)
   }
+
+  "date filter" should "find mails on specific date" in {
+    val mails = List[Item](
+      mockMail(subject = "Mail 1", date = fromLocalDate(LocalDate.parse("2019-04-09"))),
+      mockMail(subject = "Mail 2", date = fromLocalDate(LocalDate.parse("2020-04-08"))),
+      mockMail(subject = "Mail 3", date = fromLocalDate(LocalDate.parse("2020-04-09"))),
+      mockMail(subject = "Mail 4", date = fromLocalDate(LocalDate.parse("2020-04-10"))),
+      mockMail(subject = "Mail 5", date = fromLocalDate(LocalDate.parse("2020-04-09")))
+    ).onDate(LocalDate.parse("2020-04-09"))
+
+    mails.length should be(2)
+  }
+
+  def fromLocalDate(dateToConvert: LocalDate): Date = java.sql.Date.valueOf(dateToConvert)
 
   "attachment filter" should "find mails with attachments" in {
     val mails = List[Item](
