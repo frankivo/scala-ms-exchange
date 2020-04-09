@@ -1,6 +1,7 @@
 package com.github.frankivo
 
 import java.time.LocalDate
+import java.util.Date
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -25,5 +26,14 @@ class DateUtilTest extends AnyFlatSpec with Matchers {
     d.addSeconds(60)
 
     d.getTime should be(1585951200060L)
+  }
+
+  "Date" should "convert to LocalDate" in {
+    import DateUtil.DateUtil
+
+    val d = new Date(2020 - 1900, 3, 14)
+    val ld = LocalDate.parse("2020-04-14")
+
+    d.toLocalDate.equals(ld) should be(true)
   }
 }

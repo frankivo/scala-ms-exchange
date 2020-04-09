@@ -38,6 +38,14 @@ object DateUtil {
       date.setTime(date.getTime + seconds)
       date
     }
+
+    /**
+     * Converts java.util.Date to java.time.LocalDate (via java.sql.Date).
+     *
+     * @return Instance of java.util.Date
+     */
+    def toLocalDate: LocalDate = new SqlDate(date.getTime).toLocalDate
+
   }
 
 }
