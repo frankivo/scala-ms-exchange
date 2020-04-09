@@ -37,24 +37,33 @@ class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
 
   "maxAge filter" should "find mails within range" in {
     val mails = List[Item](
-      mockMail(subject = "Mail 1", ageInHours = Some(1)),
-      mockMail(subject = "Mail 2", ageInHours = Some(3)),
-      mockMail(subject = "Mail 3", ageInHours = Some(5)),
-      mockMail(subject = "Mail 4", ageInHours = Some(7))
+      mockMail("Mail 1", Date.from(Instant.now.minus(1, ChronoUnit.HOURS))),
+      mockMail("Mail 2", Date.from(Instant.now.minus(3, ChronoUnit.HOURS))),
+      mockMail("Mail 3", Date.from(Instant.now.minus(5, ChronoUnit.HOURS))),
+      mockMail("Mail 4", Date.from(Instant.now.minus(7, ChronoUnit.HOURS)))
     ).maxAge(4)
 
     mails.length should be(2)
   }
 
-  def mockMail(subject: String, ageInHours: Option[Int] = None): Item = {
+  "minAge filter" should "find mails within range" in {
+    val mails = List[Item](
+      mockMail("Mail 1", Date.from(Instant.now.minus(1, ChronoUnit.DAYS))),
+      mockMail("Mail 2", Date.from(Instant.now.minus(10, ChronoUnit.DAYS))),
+      mockMail("Mail 3", Date.from(Instant.now.minus(15, ChronoUnit.DAYS))),
+      mockMail("Mail 4", Date.from(Instant.now.minus(30, ChronoUnit.DAYS)))
+    ).minAge(14)
+
+    mails.length should be(2)
+  }
+
+  def mockMail(subject: String, date: Date = new Date): Item = {
     val mail = mock[Item]
 
     when(mail.getSubject).thenReturn(subject)
-    ageInHours.foreach(hours => {
-      val date = Date.from(Instant.now.minus(hours, ChronoUnit.HOURS))
-      when(mail.getDateTimeReceived).thenReturn(date)
-    })
+    when(mail.getDateTimeReceived).thenReturn(date)
 
     mail
   }
+
 }
