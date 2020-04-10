@@ -17,6 +17,13 @@ object EmailList {
    * @param items List of e-mails.
    */
   implicit class Filters(items: List[Item]) {
+    /**
+     * Find e-mails that match the subject exactly.
+     *
+     * @param subject Subject to search for.
+     * @return Filtered list of e-mails.
+     */
+    def withSubject(subject: String): List[Item] = items.filter(_.getSubject.equals(subject))
 
     /**
      * Find e-mails by partial subject.
