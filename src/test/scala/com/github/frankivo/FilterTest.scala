@@ -12,16 +12,31 @@ import org.scalatest.matchers.should.Matchers
 
 class FilterTest extends AnyFlatSpec with MockitoSugar with Matchers {
 
-  "subject filter" should "find an existing subject" in {
+  "subject filter" should "find an existing exact subject" in {
     val mails = List[Item](
-      mockMail(subject = "Mail 1"),
-      mockMail(subject = "Mail 2"),
-      mockMail(subject = "Mail 3"),
-      mockMail(subject = "Mail 4")
-    ).subjectContains("Mail 3")
+      mockMail(subject = "Lorem ipsum dolor sit amet"),
+      mockMail(subject = "Quisque dapibus commodo velit"),
+      mockMail(subject = "Integer molestie justo sed libero"),
+      mockMail(subject = "Cras tristique sagittis nunc ac"),
+      mockMail(subject = "Quisque dapibus molestie velit")
+    ).subjectContains("Integer molestie justo sed libero")
 
     mails.length should be(1)
-    mails.head.getSubject should be("Mail 3")
+    mails.head.getSubject should be("Integer molestie justo sed libero")
+  }
+
+  "subject filter" should "find an existing partial subject" in {
+    val mails = List[Item](
+      mockMail(subject = "Lorem ipsum dolor sit amet"),
+      mockMail(subject = "Quisque dapibus commodo velit"),
+      mockMail(subject = "Integer molestie justo sed libero"),
+      mockMail(subject = "Cras tristique sagittis nunc ac"),
+      mockMail(subject = "Quisque dapibus molestie velit")
+    ).subjectContains("molestie")
+
+    mails.length should be(2)
+    mails(n = 0).getSubject should be("Integer molestie justo sed libero")
+    mails(n = 1).getSubject should be("Quisque dapibus molestie velit")
   }
 
   "subject filter" should "not find an non-existing subject" in {
