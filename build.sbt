@@ -3,7 +3,6 @@ lazy val scala212 = "2.12.11"
 lazy val scala213 = "2.13.3"
 lazy val supportedScalaVersions = Seq(scala211, scala212, scala213)
 
-ThisBuild / name := "scala-ms-exchange"
 ThisBuild / organization := "com.github.frankivo"
 ThisBuild / version := "1.2.2"
 ThisBuild / scalaVersion := scala213
@@ -39,15 +38,15 @@ ThisBuild / publishTo := {
 }
 ThisBuild / publishMavenStyle := true
 
+lazy val scala_ms_exchange = (project in file("."))
+  .settings(
+    crossScalaVersions := supportedScalaVersions,
+    name := "scala-ms-exchange"
+  )
+
 lazy val root = (project in file("."))
   .aggregate(scala_ms_exchange)
   .settings(
     crossScalaVersions := Nil,
     publish / skip := true
-  )
-
-lazy val scala_ms_exchange = (project in file("."))
-  .settings(
-    crossScalaVersions := supportedScalaVersions,
-    name := "scala-ms-exchange"
   )
