@@ -1,6 +1,6 @@
 lazy val scala211 = "2.11.12"
-lazy val scala212 = "2.12.11"
-lazy val scala213 = "2.13.3"
+lazy val scala212 = "2.12.12"
+lazy val scala213 = "2.13.4"
 lazy val supportedScalaVersions = Seq(scala211, scala212, scala213)
 
 ThisBuild / organization := "com.github.frankivo"
